@@ -12,7 +12,7 @@ steps:
   displayName: Build an image
   inputs:
     command: build
-    dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+    dockerfile: app/Dockerfile
     buildContext: '$(Build.SourcesDirectory)'
     repository: $(AWS_ECR_IMAGE_URI)
 

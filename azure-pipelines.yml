@@ -5,22 +5,22 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  imageName: 'pipelines-javascript-docker'
+  - group: dev
 
 steps:
 - task: Docker@2
   displayName: Build an image
   inputs:
-    repository: $(imageName)
+    repository: $(AWS_ECR_REPOSITORY_NAME)
     command: build
     Dockerfile: app/Dockerfile
 
-# - task: ECRPushImage@1
-#   inputs:
-#     awsCredentials: 'AWS_ECR'
-#     regionName: $(AWS_REGION)
-#     imageSource: 'imagename'
-#     sourceImageName: $(AWS_ECR_IMAGE_URI)
-#     sourceImageTag: $(Build.BuildId)
-#     pushTag: latest
-#     repositoryName: $(AWS_ECR_REPOSITORY_NAME)
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS_ECR'
+    regionName: $(AWS_REGION)
+    imageSource: 'imagename'
+    sourceImageName: $(AWS_ECR_IMAGE_URI)
+    sourceImageTag: $(Build.BuildId)
+    pushTag: latest
+    repositoryName: $(AWS_ECR_REPOSITORY_NAME)

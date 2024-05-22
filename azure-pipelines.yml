@@ -8,13 +8,14 @@ variables:
   - group: dev
 
 steps:
-- task: Docker@2
-  displayName: Build an image
+- task: ContainerBuild@0
   inputs:
-    command: build
-    dockerfile: app/Dockerfile
-    buildContext: '$(Build.SourcesDirectory)'
-    repository: $(AWS_ECR_IMAGE_URI)
+    repository: $(AWS_ECR_REPOSITORY_NAME)
+    Dockerfile: 'app/Dockerfile'
+    tags: 'latest'
+  
+- script: docker images
+  displayName: 'List Docker Images'
 
 - task: ECRPushImage@1
   inputs:
